@@ -26,7 +26,7 @@ product), наименование которых Small Widget, Medium Widget и
 Widget или те, для которых не указана дата последней поставки.
 Отсортируйте по убыванию даты последней поставки.
 */
-
+--Перед началом работы необходимо создать и заполнить таблицы
 CREATE DATABASE DB_HW;
 
 CREATE TABLE PERSON
@@ -55,7 +55,7 @@ CREATE TABLE PURCHASE
     FOREIGN KEY (PERSON_CODE) REFERENCES PERSON(PERSON_CODE)
 );
 
-CREATE TABLE PURCHASE_ARCHIVE SELECT * FROM PURCHASE;
+CREATE TABLE PURCHASE_ARCHIVE SELECT * FROM PURCHASE; --В PURCHASE_ARCHIVE вместо наименования столбца SALESPERSON используется PERSON_CODE, как в таблице PURCHASE
 
 CREATE TABLE OLD_ITEM
 (
@@ -100,42 +100,53 @@ VALUES
 	('Small Widget', 'ZZ', 20010624, 80.00),
 	('Chrome Phoobar', 'CA', 20010625, 2.00),
 	('Small Widget', 'JT', 20010626, 50.00);
-	
+
+--1. Напишите запрос, полностью показывающий таблицу purchase.
 SELECT * FROM PURCHASE;
-	
+
+--2. Напишите запрос, выбирающий столбцы product_name и quantity из таблицы Purchase.
 SELECT PRODUCT_NAME, QUANTITY 
 FROM PURCHASE;
 
+--3. Напишите запрос, выбирающий эти столбцы в обратном порядке.
 SELECT QUANTITY, PRODUCT_NAME 
 FROM PURCHASE;
 
+--4. Напишите запрос, выводящий для каждой строки таблицы person следующий текст: <first_name> <last_name> started work <hiredate>*. Получаемому столбцу присвоить псевдоним "Started Work”.
 SELECT CONCAT(FIRST_NAME, ' ', LAST_NAME, ' started work ', HIREDATE, '*') AS 'Started Work' 
 FROM PERSON;
 
+--5. Напишите запрос,выводящий наименование продуктов product_name (таблица product), для которых цена не определена (NULL).
 SELECT PRODUCT_NAME 
 FROM PRODUCT
 WHERE PRODUCT_PRICE IS NULL;
 
+--6. Напишите запрос, выводящий наименование продуктов product_name (таблица purchase), которых продали от 3 до 23 штук.
 SELECT PRODUCT_NAME
 FROM PURCHASE
 WHERE QUANTITY BETWEEN 3 AND 23;
 
+--7. Напишите запрос, выводящий фамилии сотрудников, которых приняли на работу 1го, 15го и 28го февраля 2010 года.
 SELECT LAST_NAME
 FROM PERSON
 WHERE HIREDATE IN (20100201, 20100215, 20100228);
 
+--8. Напишите запрос, выводящий наименование продуктов product_name (таблица purchase), проданных сотрудниками, фамилии которых начинаются на "B”.
 SELECT DISTINCT PRODUCT_NAME
 FROM PURCHASE LEFT JOIN PERSON ON PURCHASE.PERSON_CODE = PERSON.PERSON_CODE
 WHERE LAST_NAME LIKE 'B%';
 
+--9. Напишите запрос, выводящий наименование продуктов product_name (таблица purchase), проданных сотрудниками, фамилии которых не начинаются на "B”.
 SELECT DISTINCT PRODUCT_NAME
 FROM PURCHASE LEFT JOIN PERSON ON PURCHASE.PERSON_CODE = PERSON.PERSON_CODE
 WHERE LAST_NAME NOT LIKE 'B%'
 
+--10. Напишите запрос, выводящий фамилии и дату приема на работу сотрудников, фамилии которых начинаются на "B” и которых приняли на работу раньше 1 марта 2010 года.
 SELECT LAST_NAME, HIREDATE
 FROM PERSON
 WHERE LAST_NAME LIKE 'B%' AND HIREDATE<20100301;
 
+--11. Напишите запрос, выводящий наименование продуктов product_name и дату последней поставки laststockdate (таблица product), наименование которых Small Widget, Medium Widget и Large Widget или те, для которых не указана дата последней поставки. Отсортируйте по убыванию даты последней поставки.
 SELECT PRODUCT_NAME, LASTSTOCKDATE
 FROM PRODUCT
 WHERE PRODUCT_NAME IN ('Small Widget', 'Medium Widget', 'Large Widget') OR LASTSTOCKDATE IS NULL
