@@ -21,16 +21,16 @@ SELECT *
 FROM PRODUCT, PURCHASE;
 
 --2. Напишите запрос, выводящий наименование проданного товара product_name, количество quantity (таблица purchase) и quantity_on_hand (таблица product).
-SELECT PURCHASE.PRODUCT_NAME, PRODUCT.QUANTITY_ON_HAND
-FROM PRODUCT JOIN PURCHASE ON PURCHASE.PRODUCT_NAME = PRODUCT.PRODUCT_NAME;
+SELECT PU.PRODUCT_NAME, PR.QUANTITY_ON_HAND
+FROM PRODUCT AS PR JOIN PURCHASE AS PU ON PU.PRODUCT_NAME = PR.PRODUCT_NAME;
 
 --3.Напишите запрос, выводящий наименование товара product_name (таблица purchase), дату последней поставки laststockdate (таблица product) и фамилию продавца last_name (таблица person).
-SELECT PURCHASE.PRODUCT_NAME, PRODUCT.LASTSTOCKDATE, PERSON.LAST_NAME
-FROM PRODUCT JOIN PURCHASE ON PURCHASE.PRODUCT_NAME = PRODUCT.PRODUCT_NAME JOIN PERSON ON PURCHASE.PERSON_CODE = PERSON.PERSON_CODE;
+SELECT PU.PRODUCT_NAME, PR.LASTSTOCKDATE, PE.LAST_NAME
+FROM PRODUCT AS PR JOIN PURCHASE AS PU ON PU.PRODUCT_NAME = PR.PRODUCT_NAME JOIN PERSON AS PE ON PU.PERSON_CODE = PE.PERSON_CODE;
 
 --4. Напишите запрос, выводящий столбцы product_name, first_name, last_name внешнего объединения таблиц purchase и person. Используйте для таблиц короткие псевдонимы.
-SELECT PURCHASE.PRODUCT_NAME,  PERSON.FIRST_NAME, PERSON.LAST_NAME
-FROM PURCHASE RIGHT OUTER JOIN PERSON ON PURCHASE.PERSON_CODE = PERSON.PERSON_CODE;
+SELECT PU.PRODUCT_NAME,  PE.FIRST_NAME, PE.LAST_NAME
+FROM PURCHASE AS PU RIGHT OUTER JOIN PERSON AS PE ON PU.PERSON_CODE = PE.PERSON_CODE;
 
 --5.Напишите запрос, который выводит коды продавцов salesperson из таблицы purchase_archive , которые не повторяются в таблице purchase.
 SELECT PA.PERSON_CODE
